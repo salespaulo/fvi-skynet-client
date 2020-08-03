@@ -41,7 +41,7 @@ describe(`Module core/download - MOCK`, () => {
                     const writeContent = fs.readFileSync(pathTest)
                     fs.unlinkSync(pathTest)
 
-                    const startsWith = `Skynet Download Mocked url=`
+                    const startsWith = `{`
                     chai.assert.isTrue(writeContent.toString('utf-8').startsWith(startsWith))
                     done()
                 })

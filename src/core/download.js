@@ -11,7 +11,7 @@ const downloadMock = (client, url) => {
     }
 
     const stream = new Readable()
-    stream.push(`Skynet Download Mocked url=${url}!`)
+    stream.push(JSON.stringify({ message: `Skynet Download Mocked url=${url}!` }))
     stream.push(null)
 
     client.mock.onGet(url, { responseType: 'stream' }).reply(200, stream)
