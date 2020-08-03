@@ -18,7 +18,8 @@
         "coverage": "npx nyc@latest npm run test"
     },
     "keywords": [
-        "utils"
+        "skynet",
+        "client"
     ],
     "author": "FVI",
     "license": "MIT",
