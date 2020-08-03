@@ -1,6 +1,6 @@
 {
     "name": "fvi-skynet-client",
-    "version": "0.0.0",
+    "version": "0.0.1",
     "description": "FVI - Skynet Clinet Library",
     "main": "src/index.js",
     "prettier": "fvi-prettier-config",

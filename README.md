@@ -14,7 +14,7 @@
 -   `npm run release:major`: Init git flow release from next package version, **major**, [git flow](https://github.com/nvie/gitflow/) release start.
 -   `npm run release:finish`: Finish current releas, [git flow](https://github.com/nvie/gitflow/).
 
-## Freunde Von Ideen - Skynet Client Library
+## Freunde Von Ideen - Node Skynet Client Library
 
 Node Skynet Client Library using [fvi-axios-client](https://github.com/salespaulo/fvi-axios-client).
 
@@ -22,12 +22,12 @@ Node Skynet Client Library using [fvi-axios-client](https://github.com/salespaul
 
 -   Terminal
 
-```
-~> mkdir test-skynet
-~> cd test-skynet
-~> npm install --save fvi-skynet-client
-~> touch index.js
-~> vi index.js
+```shell
+mkdir test-skynet
+cd test-skynet
+npm install --save fvi-skynet-client
+touch index.js
+vi index.js
 ```
 
 -   Vi (Text editor)
@@ -35,7 +35,9 @@ Node Skynet Client Library using [fvi-axios-client](https://github.com/salespaul
 ```javascript
 const skynet = require('fvi-skynet-client')
 
-const opts = {} // URL default is http://siasky.net and other options follows [axios config](https://github.com/axios/axios).
+// URL default is http://siasky.net.
+// Other options follows [axios config](https://github.com/axios/axios).
+const opts = {}
 const client = skynet(opts)
 ```
 
