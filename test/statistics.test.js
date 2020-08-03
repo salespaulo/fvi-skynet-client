@@ -26,6 +26,17 @@ describe(`Module core/statistics - MOCK`, () => {
     })
 
     it(`Testing function - stats`, done => {
-        done()
+        instance
+            .stats()
+            .then(res => {
+                chai.assert.isObject(res.data)
+                chai.assert.exists(res.data.uptime)
+                chai.assert.equal(1234, res.data.uptime)
+                chai.assert.exists(res.data.uploadstats)
+                chai.assert.exists(res.data.versioninfo)
+                chai.assert.exists(res.data.performancestats)
+                done()
+            })
+            .catch(done)
     })
 })

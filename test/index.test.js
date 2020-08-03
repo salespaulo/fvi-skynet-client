@@ -44,21 +44,5 @@ describe(`Module main - MOCK`, () => {
             chai.assert.exists(instance.statistics)
             done()
         })
-
-        it(`Testing function - uploadFile`, done => {
-            done()
-        })
-
-        it(`Testing function - uploadFile`, done => {
-            done()
-        })
-
-        it(`Testing function - download`, done => {
-            done()
-        })
-
-        it(`Testing function - statistics`, done => {
-            done()
-        })
     })
 })
