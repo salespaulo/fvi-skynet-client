@@ -6,7 +6,7 @@ const chai = require('chai')
 const axios = require('fvi-axios-client')
 
 const Upload = require('../src/core/upload')
-const { URI_SIA } = require('../src/utils')
+const { URI_SIA, DEFAULT_UPLOAD_URL } = require('../src/utils')
 
 describe(`Module core/upload - MOCK`, () => {
     const mockSkylink = `${URI_SIA}CABAB_1Dt0FJsxqsu_J4TodNCbCGvtFf1Uys_3EgzOlTcg`
@@ -20,6 +20,17 @@ describe(`Module core/upload - MOCK`, () => {
 
     before(() => {
         const client = axios(opts)
+
+        if (!client.mock) {
+            return
+        }
+
+        client.mock.onPost(DEFAULT_UPLOAD_URL).reply(200, {
+            skylink: 'CABAB_1Dt0FJsxqsu_J4TodNCbCGvtFf1Uys_3EgzOlTcg',
+            merkleroot: 'QAf9Q7dBSbMarLvyeE6HTQmwhr7RX9VMrP9xIMzpU3I',
+            bitfield: 2048,
+        })
+
         instance = Upload(client)
     })
 

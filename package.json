@@ -25,7 +25,7 @@
     "dependencies": {
         "@hapi/joi": "^17.1.1",
         "form-data": "^3.0.0",
-        "fvi-axios-client": "file:../fvi-axios-client"
+        "fvi-axios-client": "^0.0.4"
     },
     "devDependencies": {
         "uuid": "^8.1.0",

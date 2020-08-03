@@ -2,7 +2,12 @@
 
 const joi = require('@hapi/joi')
 
-const { DEFAULT_SKYNET_URL, throwsIfInvalidJoiSchema } = require('../utils')
+const {
+    DEFAULT_SKYNET_URL,
+    DEFAULT_UPLOAD_URL,
+    DEFAULT_DOWNLOAD_URL,
+    throwsIfInvalidJoiSchema,
+} = require('../utils')
 
 const validateUploadFileOpts = joi.object({
     stream: joi.object({ pipe: joi.func().required() }).required().options({ stripUnknown: true }),
@@ -18,14 +23,14 @@ const validateUploadDirOpts = joi.object({
             joi.object({ pipe: joi.func().required() }).required().options({ stripUnknown: true })
         )
         .required(),
-    endpoint: joi.string().optional().default('/skynet/skyfile'),
+    endpoint: joi.string().optional().default(DEFAULT_UPLOAD_URL),
     filename: joi.string().optional(),
     dryRun: joi.boolean().optional().default(true),
 })
 
 const validateDownloadOpts = joi.object({
     skylink: joi.string().required(),
-    endpoint: joi.string().optional().default('/'),
+    endpoint: joi.string().optional().default(DEFAULT_DOWNLOAD_URL),
 })
 
 const validateSkynetUrl = joi.string().optional().default(DEFAULT_SKYNET_URL)

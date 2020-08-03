@@ -14,18 +14,6 @@ const formatRes = res => {
     }
 }
 
-const postMock = (client, url) => {
-    if (!client.mock) {
-        return
-    }
-
-    client.mock.onPost(url).reply(200, {
-        skylink: 'CABAB_1Dt0FJsxqsu_J4TodNCbCGvtFf1Uys_3EgzOlTcg',
-        merkleroot: 'QAf9Q7dBSbMarLvyeE6HTQmwhr7RX9VMrP9xIMzpU3I',
-        bitfield: 2048,
-    })
-}
-
 const doPost = (client, stream, formUploadParamName, options) => {
     const formData = new FormData()
     const formOpts = options.filename ? { filename: options.filename } : {}
@@ -36,7 +24,6 @@ const doPost = (client, stream, formUploadParamName, options) => {
         stream.forEach(s => formData.append(formUploadParamName, s, formOpts))
     }
 
-    postMock(client, options.endpoint)
     return client
         .post(options.endpoint, formData, {
             headers: formData.getHeaders(),

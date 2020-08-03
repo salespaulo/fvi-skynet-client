@@ -16,6 +16,20 @@ describe(`Module core/statistics - MOCK`, () => {
 
     before(() => {
         const client = axios(opts)
+        client.mock.onGet(`/stats`).reply(200, {
+            uptime: 1234,
+            uploadstats: {
+                numfiles: 2,
+                totalsize: 44527895,
+            },
+            versioninfo: {
+                version: '1.4.4-master',
+                gitrevision: 'cd5a83712',
+            },
+            performancestats: {
+                // Fields omitted
+            },
+        })
         instance = Statistics(client)
     })
 

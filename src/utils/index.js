@@ -4,6 +4,8 @@ const joi = require(`@hapi/joi`)
 
 const URI_SIA = `sia://`
 const DEFAULT_SKYNET_URL = `https://siasky.net`
+const DEFAULT_UPLOAD_URL = `/skynet/skyfile`
+const DEFAULT_DOWNLOAD_URL = `/`
 
 const buildSkynetUrlJoiSchema = joi.object({
     endpoint: joi.string().required(),
@@ -36,6 +38,8 @@ const buildSkynetUrl = (endpoint, skylink) => {
 module.exports = {
     URI_SIA,
     DEFAULT_SKYNET_URL,
+    DEFAULT_UPLOAD_URL,
+    DEFAULT_DOWNLOAD_URL,
     throwsIfInvalidJoiSchema,
     buildSkynetUrl,
 }

@@ -14,5 +14,6 @@ module.exports = client => {
         uploadDirectory: upload.directory,
         download: download.download,
         statistics: statistics.stats,
+        mock: client.mock,
     }
 }
