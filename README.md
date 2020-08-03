@@ -16,3 +16,120 @@
 
 ## Freunde Von Ideen - Skynet Client Library
 
+Node Skynet Client Library using [fvi-axios-client](https://github.com/salespaulo/fvi-axios-client).
+
+### Using
+
+-   Terminal
+
+```
+~> mkdir test-skynet
+~> cd test-skynet
+~> npm install --save fvi-skynet-client
+~> touch index.js
+~> vi index.js
+```
+
+-   Vi (Text editor)
+
+```javascript
+const skynet = require('fvi-skynet-client')
+
+const opts = {} // URL default is http://siasky.net and other options follows [axios config](https://github.com/axios/axios).
+const client = skynet(opts)
+```
+
+### Upload File
+
+```javascript
+const fs = require('fs')
+
+const opts = {
+    endpoint: '/skynet/skyfile', // optional
+    filename: null, // optional
+    dryRun: true, // optional
+}
+const stream = fs.createReadStream('test.xyz')
+
+client
+    .uploadFile(stream, opts)
+    .then(res => console.log(res))
+    .catch(e => console.error(e))
+
+/*
+Example of success print:
+{
+    skylink: 'CABAB_1Dt0FJsxqsu_J4TodNCbCGvtFf1Uys_3EgzOlTcg',
+    merkleroot: 'QAf9Q7dBSbMarLvyeE6HTQmwhr7RX9VMrP9xIMzpU3I',
+    bitfield: 2048,
+}
+*/
+```
+
+### Upload Directory
+
+```javascript
+const fs = require('fs')
+
+const opts = {
+    endpoint: '/skynet/skyfile', // optional
+    filename: null, // optional
+    dryRun: true, // optional
+}
+const files = fs.readdirSync('dirnamehere')
+const streams = files.map(f => fs.createReadStream(f))
+
+client
+    .uploadDirectory(streams, opts)
+    .then(res => console.log(res))
+    .catch(e => console.error(e))
+/*
+Example of success print:
+{
+    skylink: 'CABAB_1Dt0FJsxqsu_J4TodNCbCGvtFf1Uys_3EgzOlTcg',
+    merkleroot: 'QAf9Q7dBSbMarLvyeE6HTQmwhr7RX9VMrP9xIMzpU3I',
+    bitfield: 2048,
+}
+*/
+```
+
+### Statistics
+
+```javascript
+client
+    .statistics()
+    .then(res => console.log(res))
+    .catch(e => console.error(e))
+
+/*
+Example of success print:
+{
+    uptime: 1234,
+    uploadstats: {
+        numfiles: 2,
+        totalsize: 44527895,
+    },
+    versioninfo: {
+        version: '1.4.4-master',
+        gitrevision: 'cd5a83712',
+    },
+    performancestats: {
+        // Fields omitted
+    },
+}
+*/
+```
+
+### Mock
+
+The mock object follows the [axios adapter mock](https://github.com/ctimmerm/axios-mock-adapter).
+
+```javascript
+const fs = require('fs')
+
+if (client.mock) {
+    const stream = fs.createReadStream('mock.xyz')
+    client.mock.onPost(`/skynet/skyfile`).reply(200, { mock: true })
+    client.mock.onGet(`/CABAB_1Dt0FJsxqsu_J4TodNCbCGvtFf1Uys_3EgzOlTcg`).reply(200, stream)
+}
+```
