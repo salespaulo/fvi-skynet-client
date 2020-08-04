@@ -14,6 +14,7 @@ const validateUploadFileOpts = joi.object({
     endpoint: joi.string().optional().default('/skynet/skyfile'),
     filename: joi.string().optional().default(null),
     dryRun: joi.boolean().optional().default(true),
+    onUploadProgress: joi.func().optional().default(null),
 })
 
 const validateUploadDirOpts = joi.object({
@@ -26,6 +27,7 @@ const validateUploadDirOpts = joi.object({
     endpoint: joi.string().optional().default(DEFAULT_UPLOAD_URL),
     filename: joi.string().optional(),
     dryRun: joi.boolean().optional().default(true),
+    onUploadProgress: joi.func().optional().default(null),
 })
 
 const validateDownloadOpts = joi.object({

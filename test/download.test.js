@@ -2,7 +2,7 @@
 
 const fs = require('fs')
 const chai = require('chai')
-const { Readable } = require('stream')
+const stringToFileStream = require('string-to-file-stream')
 
 const axios = require('fvi-axios-client')
 
@@ -21,9 +21,7 @@ describe(`Module core/download - MOCK`, () => {
 
     before(() => {
         const client = axios(opts)
-        const stream = new Readable()
-        stream.push(JSON.stringify(`Skynet Download Mocked url!`))
-        stream.push(null)
+        const stream = stringToFileStream(`Skynet Download Mocked url!`)
 
         client.mock
             .onGet(`/${skylink.slice(URI_SIA.length)}`, { responseType: 'stream' })
@@ -50,7 +48,7 @@ describe(`Module core/download - MOCK`, () => {
                     const writeContent = fs.readFileSync(pathTest)
                     fs.unlinkSync(pathTest)
 
-                    const startsWith = `"Skynet Download Mocked url!"`
+                    const startsWith = `Skynet Download Mocked url!`
                     chai.assert.equal(startsWith, writeContent.toString('utf-8'))
                     done()
                 })

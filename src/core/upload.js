@@ -28,6 +28,11 @@ const doPost = (client, stream, formUploadParamName, options) => {
         .post(options.endpoint, formData, {
             headers: formData.getHeaders(),
             params: { dryRun: options.dryRun },
+            onUploadProgress: ({ loaded, total }) => {
+                const progress = loaded / total
+
+                options.onUploadProgress(progress, { loaded, total })
+            },
         })
         .then(res => formatRes(res))
 }

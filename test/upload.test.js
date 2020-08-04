@@ -1,17 +1,17 @@
 'use strict'
 
-const { Readable } = require('stream')
+const stringToFileStream = require('string-to-file-stream')
 
 const chai = require('chai')
 const axios = require('fvi-axios-client')
 
 const Upload = require('../src/core/upload')
-const { URI_SIA, DEFAULT_UPLOAD_URL } = require('../src/utils')
+const { URI_SIA, DEFAULT_SKYNET_URL, DEFAULT_UPLOAD_URL } = require('../src/utils')
 
 describe(`Module core/upload - MOCK`, () => {
     const mockSkylink = `${URI_SIA}CABAB_1Dt0FJsxqsu_J4TodNCbCGvtFf1Uys_3EgzOlTcg`
     const mock = true
-    const url = 'http://'
+    const url = DEFAULT_SKYNET_URL
     const opts = {
         mock,
         url,
@@ -20,6 +20,7 @@ describe(`Module core/upload - MOCK`, () => {
 
     before(() => {
         const client = axios(opts)
+        instance = Upload(client)
 
         if (!client.mock) {
             return
@@ -30,8 +31,6 @@ describe(`Module core/upload - MOCK`, () => {
             merkleroot: 'QAf9Q7dBSbMarLvyeE6HTQmwhr7RX9VMrP9xIMzpU3I',
             bitfield: 2048,
         })
-
-        instance = Upload(client)
     })
 
     it(`Testing instance functions - OK`, done => {
@@ -43,9 +42,7 @@ describe(`Module core/upload - MOCK`, () => {
     })
 
     it(`Testing function - file`, done => {
-        const stream = new Readable()
-        stream.push(`Skynet Uploading File Mocked`)
-        stream.push(null)
+        const stream = stringToFileStream(`Skynet Uploading File Mocked`)
 
         instance
             .file(stream)
@@ -59,12 +56,8 @@ describe(`Module core/upload - MOCK`, () => {
     })
 
     it(`Testing function - directory`, done => {
-        const stream1 = new Readable()
-        stream1.push(`1o. Stream Skynet Uploading Dir Mocked`)
-        stream1.push(null)
-        const stream2 = new Readable()
-        stream2.push(`2o. Stream Skynet Uploading Dir Mocked`)
-        stream2.push(null)
+        const stream1 = stringToFileStream(`1o. Stream Skynet Uploading Dir Mocked`)
+        const stream2 = stringToFileStream(`2o. Stream Skynet Uploading Dir Mocked`)
 
         instance
             .directory([stream1, stream2])
