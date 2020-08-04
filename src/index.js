@@ -11,5 +11,8 @@ module.exports = (opts = {}) => {
     const client = axios({ url, ...opts })
     const core = Core(client)
 
-    return core
+    return {
+        url,
+        ...core,
+    }
 }
