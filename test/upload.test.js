@@ -1,6 +1,6 @@
 'use strict'
 
-const { Readable } = require('stream')
+const stringToFileStream = require('string-to-file-stream')
 
 const chai = require('chai')
 const axios = require('fvi-axios-client')
@@ -11,15 +11,10 @@ const { URI_SIA, DEFAULT_SKYNET_URL, DEFAULT_UPLOAD_URL } = require('../src/util
 describe(`Module core/upload - MOCK`, () => {
     const mockSkylink = `${URI_SIA}CABAB_1Dt0FJsxqsu_J4TodNCbCGvtFf1Uys_3EgzOlTcg`
     const mock = true
-    const url = DEFAULT_SKYNET_URL //'http://'
+    const url = DEFAULT_SKYNET_URL
     const opts = {
-        //mock,
+        mock,
         url,
-        onUploadProgress: ev => {
-            const progress = (ev.loaded / ev.total) * 100
-            //updateUploadProgress(Math.round(progress));
-            console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> PROGRESS', progress)
-        },
     }
     let instance = null
 
@@ -47,9 +42,7 @@ describe(`Module core/upload - MOCK`, () => {
     })
 
     it(`Testing function - file`, done => {
-        const stream = new Readable()
-        stream.push(`Skynet Uploading File Mocked`)
-        stream.push(null)
+        const stream = stringToFileStream(`Skynet Uploading File Mocked`)
 
         instance
             .file(stream)
@@ -63,12 +56,8 @@ describe(`Module core/upload - MOCK`, () => {
     })
 
     it(`Testing function - directory`, done => {
-        const stream1 = new Readable()
-        stream1.push(`1o. Stream Skynet Uploading Dir Mocked`)
-        stream1.push(null)
-        const stream2 = new Readable()
-        stream2.push(`2o. Stream Skynet Uploading Dir Mocked`)
-        stream2.push(null)
+        const stream1 = stringToFileStream(`1o. Stream Skynet Uploading Dir Mocked`)
+        const stream2 = stringToFileStream(`2o. Stream Skynet Uploading Dir Mocked`)
 
         instance
             .directory([stream1, stream2])

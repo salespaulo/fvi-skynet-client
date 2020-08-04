@@ -1,7 +1,7 @@
 'use strict'
 
 const chai = require('chai')
-const { Readable } = require('stream')
+const stringToFileStream = require('string-to-file-stream')
 
 const validation = require('../src/validation')
 const { DEFAULT_SKYNET_URL } = require('../src/utils')
@@ -26,7 +26,7 @@ describe(`Module validation`, () => {
         const endpoint = '/skynet/skyfile'
         const filename = 'test-file-name'
         const dryRun = true
-        const stream = new Readable()
+        const stream = stringToFileStream('testing')
         const opts = { stream, endpoint, filename, dryRun }
 
         validation.validateUploadFileOpts(opts)
@@ -84,7 +84,7 @@ describe(`Module validation`, () => {
         const endpoint = '/skynet/skyfile'
         const filename = 'test-file-name'
         const dryRun = true
-        const stream = new Readable()
+        const stream = stringToFileStream('testing')
         const streams = [stream]
         const opts = { streams, endpoint, filename, dryRun }
 
