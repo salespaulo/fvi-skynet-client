@@ -28,6 +28,7 @@ const doPost = (client, stream, formUploadParamName, options) => {
         .post(options.endpoint, formData, {
             headers: formData.getHeaders(),
             params: { dryRun: options.dryRun },
+            onUploadProgress: options.onUploadProgress,
         })
         .then(res => formatRes(res))
 }

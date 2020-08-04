@@ -6,20 +6,26 @@ const chai = require('chai')
 const axios = require('fvi-axios-client')
 
 const Upload = require('../src/core/upload')
-const { URI_SIA, DEFAULT_UPLOAD_URL } = require('../src/utils')
+const { URI_SIA, DEFAULT_SKYNET_URL, DEFAULT_UPLOAD_URL } = require('../src/utils')
 
 describe(`Module core/upload - MOCK`, () => {
     const mockSkylink = `${URI_SIA}CABAB_1Dt0FJsxqsu_J4TodNCbCGvtFf1Uys_3EgzOlTcg`
     const mock = true
-    const url = 'http://'
+    const url = DEFAULT_SKYNET_URL //'http://'
     const opts = {
-        mock,
+        //mock,
         url,
+        onUploadProgress: ev => {
+            const progress = (ev.loaded / ev.total) * 100
+            //updateUploadProgress(Math.round(progress));
+            console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> PROGRESS', progress)
+        },
     }
     let instance = null
 
     before(() => {
         const client = axios(opts)
+        instance = Upload(client)
 
         if (!client.mock) {
             return
@@ -30,8 +36,6 @@ describe(`Module core/upload - MOCK`, () => {
             merkleroot: 'QAf9Q7dBSbMarLvyeE6HTQmwhr7RX9VMrP9xIMzpU3I',
             bitfield: 2048,
         })
-
-        instance = Upload(client)
     })
 
     it(`Testing instance functions - OK`, done => {
