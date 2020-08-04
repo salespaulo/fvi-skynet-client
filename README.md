@@ -1,16 +1,16 @@
 > [‘Own The Internet’ Hackathon](https://gitcoin.co/hackathon/own-the-internet)
 
-* Hackathon page: https://gitcoin.co/hackathon/own-the-internet
+-   Hackathon page: https://gitcoin.co/hackathon/own-the-internet
 
 ### Handshake
 
-* Project page: https://handshake.org
-* Learn Center: https://learn.namebase.io
+-   Project page: https://handshake.org
+-   Learn Center: https://learn.namebase.io
 
 ### Sia
 
-* Project page: https://siasky.net
-* Docs: https://sia.tech/docs/#skynet
+-   Project page: https://siasky.net
+-   Docs: https://sia.tech/docs/#skynet
 
 ## Freunde Von Ideen - Node Skynet Client Library
 
@@ -142,6 +142,7 @@ if (client.mock) {
     client.mock.onGet(`/CABAB_1Dt0FJsxqsu_J4TodNCbCGvtFf1Uys_3EgzOlTcg`).reply(200, stream)
 }
 ```
+
 ### Audit
 
 -   [HIGH](./AUDIT.md)
