@@ -142,6 +142,9 @@ if (client.mock) {
     client.mock.onGet(`/CABAB_1Dt0FJsxqsu_J4TodNCbCGvtFf1Uys_3EgzOlTcg`).reply(200, stream)
 }
 ```
+### Audit
+
+-   [HIGH](./AUDIT.md)
 
 ### fvi-skynet-client
 
