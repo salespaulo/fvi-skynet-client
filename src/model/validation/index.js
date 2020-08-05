@@ -22,6 +22,7 @@ const validateFile = joi
 
 const validateStream = joi.object({ pipe: joi.func().required() }).options({ stripUnknown: true })
 
+console.log('>>>>>>>>>>>>>>>>>>>>DEFA', DEFAULT_UPLOAD_URL)
 const validateUploadOpts = joi
     .object({
         file: validateFile,
@@ -30,13 +31,13 @@ const validateUploadOpts = joi
         streams: joi.array().items(validateStream.required()),
         baseUrl: joi.string().uri().required(),
         endpoint: joi.string().optional().default(DEFAULT_UPLOAD_URL),
-        filename: joi.string().optional().default(null),
+        filename: joi.string().optional(),
         formParam: joi
             .string()
             .valid(FORM_PARAM_UPLOAD_FILE, FORM_PARAM_UPLOAD_DIR)
             .optional()
             .default(FORM_PARAM_UPLOAD_FILE),
-        onUploadProgress: joi.func().optional().default(null),
+        onUploadProgress: joi.func().optional(),
     })
     .options({ stripUnknown: true })
     .xor('file', 'files', 'stream', 'streams')

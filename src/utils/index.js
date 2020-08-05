@@ -46,12 +46,12 @@ const setUriSiaPrefix = skylink => {
 
 module.exports = {
     URI_SIA,
-    DEFAULT_SKYNET_URL,
-    DEFAULT_UPLOAD_URL,
-    DEFAULT_DOWNLOAD_URL,
-    FORM_PARAM_UPLOAD_FILE,
-    FORM_PARAM_UPLOAD_DIR,
-    throwsIfInvalidJoiSchema,
-    buildSkynetUrl,
-    setUriSiaPrefix,
+    DEFAULT_SKYNET_URL: DEFAULT_SKYNET_URL,
+    DEFAULT_UPLOAD_URL: DEFAULT_UPLOAD_URL,
+    DEFAULT_DOWNLOAD_URL: DEFAULT_DOWNLOAD_URL,
+    FORM_PARAM_UPLOAD_FILE: FORM_PARAM_UPLOAD_FILE,
+    FORM_PARAM_UPLOAD_DIR: FORM_PARAM_UPLOAD_DIR,
+    throwsIfInvalidJoiSchema: throwsIfInvalidJoiSchema,
+    buildSkynetUrl: buildSkynetUrl,
+    setUriSiaPrefix: setUriSiaPrefix,
 }
