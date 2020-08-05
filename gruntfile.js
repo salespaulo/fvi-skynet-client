@@ -26,6 +26,9 @@ module.exports = function (grunt) {
     }
 
     var shell = {
+        babel: {
+            command: 'babel src --out-dir dist',
+        },
         exec: {
             command: 'node app',
         },
@@ -75,11 +78,11 @@ module.exports = function (grunt) {
     var watch = {
         debug: {
             files: ['<%= paths.app %>/**/*.js', '<%= paths.test %>'],
-            tasks: ['env:debugtest', 'mochaTest', 'env:debugdev'],
+            tasks: ['compile', 'env:debugtest', 'mochaTest', 'env:debugdev'],
         },
         js: {
             files: ['<%= paths.app %>/**/*.js', '<%= paths.test %>'],
-            tasks: ['env:test', 'mochaTest', 'env:dev'],
+            tasks: ['compile', 'env:test', 'mochaTest', 'env:dev'],
         },
     }
 
@@ -136,7 +139,7 @@ module.exports = function (grunt) {
 
     require('load-grunt-tasks')(grunt)
 
-    grunt.registerTask('compile', ['clean'])
+    grunt.registerTask('compile', ['clean', 'shell:babel'])
 
     grunt.registerTask('test', ['env:test', 'compile', 'mochaTest', 'notify:test'])
     grunt.registerTask('debug-test', ['env:debugtest', 'compile', 'mochaTest', 'notify:test'])

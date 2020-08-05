@@ -12,9 +12,7 @@ module.exports = (opts = {}) => {
 
     const client = axios({ url: skynetUrl, ...opts })
     const core = Core(client)
+    core.getUrl = buildSkynetUrl
 
-    return {
-        ...core,
-        getUrl: buildSkynetUrl,
-    }
+    return core
 }

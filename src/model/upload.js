@@ -17,7 +17,7 @@ const createUploadUrl = (baseUrl, endpoint, filename) => {
     return parsed.toString()
 }
 
-const createFileReadStream = file => fs.createReadStream(path.join(file.path, file.name))
+const createFileReadStream = file => fs.createReadStream(path.join(file.path, file.name)) //new File([], path.join(file.path, file.name))//
 
 module.exports = (opts = {}) => {
     const skynetUpload = validateUploadOpts(opts)

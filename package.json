@@ -1,8 +1,13 @@
 {
     "name": "fvi-skynet-client",
-    "version": "0.0.5",
+    "version": "0.0.6",
     "description": "FVI - Skynet Clinet Library",
-    "main": "src/index.js",
+    "main": "dist/index.js",
+    "module": "src/index.js",
+    "files": [
+        "dist/*",
+        "src/*"
+    ],
     "prettier": "fvi-prettier-config",
     "scripts": {
         "compile": "grunt compile",
@@ -24,6 +29,7 @@
     "author": "FVI",
     "license": "MIT",
     "dependencies": {
+        "fs": "0.0.1-security",
         "@hapi/joi": "^17.1.1",
         "form-data": "^3.0.0",
         "fvi-axios-client": "^0.0.6",
@@ -32,6 +38,9 @@
     "devDependencies": {
         "string-to-file-stream": "^1.2.0",
         "chai": "^4.2.0",
+        "@babel/cli": "^7.10.1",
+        "@babel/core": "^7.9.0",
+        "@babel/preset-env": "^7.9.0",
         "grunt": "^1.2.1",
         "grunt-concurrent": "^3.0.0",
         "grunt-contrib-clean": "^2.0.0",
