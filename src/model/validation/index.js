@@ -22,7 +22,6 @@ const validateFile = joi
 
 const validateStream = joi.object({ pipe: joi.func().required() }).options({ stripUnknown: true })
 
-console.log('>>>>>>>>>>>>>>>>>>>>DEFA', DEFAULT_UPLOAD_URL)
 const validateUploadOpts = joi
     .object({
         file: validateFile,
