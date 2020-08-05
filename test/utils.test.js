@@ -24,7 +24,7 @@ describe(`Module utils`, () => {
     })
 
     it(`Testing constant - DEFAULT_SKYNET_URL`, done => {
-        chai.assert.equal(`https://siasky.net`, utils.DEFAULT_SKYNET_URL)
+        chai.assert.equal(`https://siasky.dev`, utils.DEFAULT_SKYNET_URL)
         done()
     })
 
