@@ -3,7 +3,7 @@
 const joi = require(`@hapi/joi`)
 
 const URI_SIA = `sia://`
-const DEFAULT_SKYNET_URL = `https://siasky.net`
+const DEFAULT_SKYNET_URL = `https://siasky.dev`
 const DEFAULT_UPLOAD_URL = `/skynet/skyfile`
 const DEFAULT_DOWNLOAD_URL = `/`
 
