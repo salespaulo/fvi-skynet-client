@@ -1,11 +1,11 @@
 'use strict'
 
 const { buildSkynetUrl } = require('../utils')
-const { validateDownloadOpts } = require('../validation')
+const { SkynetDownload } = require('../model')
 
 const download = client => (skylink, opts = {}) => {
-    const options = validateDownloadOpts({ skylink, ...opts })
-    const url = buildSkynetUrl(options.endpoint, skylink)
+    const skynetDownload = SkynetDownload({ skylink, ...opts })
+    const url = buildSkynetUrl(skynetDownload.endpoint, skylink)
 
     return client.get(url, { responseType: 'stream' })
 }
