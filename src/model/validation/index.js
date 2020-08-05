@@ -54,7 +54,7 @@ const validateDownloadOpts = joi.object({
     endpoint: joi.string().optional().default(DEFAULT_DOWNLOAD_URL),
 })
 
-const validateSkynetUrl = joi.string().optional().default(DEFAULT_SKYNET_URL)
+const validateSkynetUrl = joi.string().default(DEFAULT_SKYNET_URL)
 
 module.exports = {
     validateSkynetUrl: throwsIfInvalidJoiSchema(validateSkynetUrl),
