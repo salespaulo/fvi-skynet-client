@@ -12,6 +12,8 @@ module.exports = client => {
     return {
         uploadFile: upload.file,
         uploadDirectory: upload.directory,
+        uploadFileStream: upload.fileStream,
+        uploadDirectoryStream: upload.directoryStreams,
         download: download.download,
         statistics: statistics.stats,
         mock: client.mock,

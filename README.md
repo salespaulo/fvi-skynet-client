@@ -47,7 +47,6 @@ const fs = require('fs')
 const opts = {
     endpoint: '/skynet/skyfile', // optional
     filename: null, // optional
-    dryRun: true, // optional
 }
 const stream = fs.createReadStream('test.xyz')
 
@@ -74,7 +73,6 @@ const fs = require('fs')
 const opts = {
     endpoint: '/skynet/skyfile', // optional
     filename: null, // optional
-    dryRun: true, // optional
 }
 const files = fs.readdirSync('dirnamehere')
 const streams = files.map(f => fs.createReadStream(f))

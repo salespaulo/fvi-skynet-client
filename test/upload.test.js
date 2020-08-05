@@ -1,16 +1,24 @@
 'use strict'
 
-const stringToFileStream = require('string-to-file-stream')
+const fs = require('fs')
+const path = require('path')
 
 const chai = require('chai')
 const axios = require('fvi-axios-client')
 
 const Upload = require('../src/core/upload')
 const { URI_SIA, DEFAULT_SKYNET_URL, DEFAULT_UPLOAD_URL } = require('../src/utils')
+const mock = true
 
-describe(`Module core/upload - MOCK`, () => {
+describe(`Module core/upload - MOCK=${mock}`, () => {
+    const baseTestDir = path.join(__dirname, '.data')
+    const fileTest1 = path.join(baseTestDir, 'test1.json')
+    const fileTest2 = path.join(baseTestDir, 'test2.json')
+    const fileTest3 = path.join(baseTestDir, 'test3.json')
+    const fileTest4 = path.join(baseTestDir, 'test4.json')
+    const fileTest5 = path.join(baseTestDir, 'test5.json')
+
     const mockSkylink = `${URI_SIA}CABAB_1Dt0FJsxqsu_J4TodNCbCGvtFf1Uys_3EgzOlTcg`
-    const mock = true
     const url = DEFAULT_SKYNET_URL
     const opts = {
         mock,
@@ -33,6 +41,23 @@ describe(`Module core/upload - MOCK`, () => {
         })
     })
 
+    beforeEach(() => {
+        if (!fs.existsSync(baseTestDir)) {
+            fs.mkdirSync(baseTestDir)
+        }
+        fs.writeFileSync(fileTest1, JSON.stringify({ msg: 'Test1' }))
+        fs.writeFileSync(fileTest2, JSON.stringify({ msg: 'Test2' }))
+        fs.writeFileSync(fileTest3, JSON.stringify({ msg: 'Test3' }))
+        fs.writeFileSync(fileTest4, JSON.stringify({ msg: 'Test4' }))
+        fs.writeFileSync(fileTest5, JSON.stringify({ msg: 'Test5' }))
+    })
+
+    afterEach(() => {
+        if (fs.existsSync(baseTestDir)) {
+            fs.readdirSync(baseTestDir).forEach(f => fs.unlinkSync(path.join(baseTestDir, f)))
+        }
+    })
+
     it(`Testing instance functions - OK`, done => {
         chai.assert.exists(instance.file)
         chai.assert.isFunction(instance.file)
@@ -42,29 +67,58 @@ describe(`Module core/upload - MOCK`, () => {
     })
 
     it(`Testing function - file`, done => {
-        const stream = stringToFileStream(`Skynet Uploading File Mocked`)
+        const file = { name: 'test1.json', path: baseTestDir }
 
         instance
-            .file(stream)
+            .file(file)
             .then(res => {
                 chai.assert.isObject(res.data)
                 chai.assert.exists(res.data.skylink)
-                chai.assert.equal(mockSkylink, res.data.skylink)
+                if (mock) chai.assert.equal(mockSkylink, res.data.skylink)
                 done()
             })
             .catch(done)
     })
 
     it(`Testing function - directory`, done => {
-        const stream1 = stringToFileStream(`1o. Stream Skynet Uploading Dir Mocked`)
-        const stream2 = stringToFileStream(`2o. Stream Skynet Uploading Dir Mocked`)
+        const file2 = { name: 'test2.json', path: baseTestDir }
+        const file3 = { name: 'test3.json', path: baseTestDir }
 
         instance
-            .directory([stream1, stream2])
+            .directory([file2, file3])
             .then(res => {
                 chai.assert.isObject(res.data)
                 chai.assert.exists(res.data.skylink)
-                chai.assert.equal(mockSkylink, res.data.skylink)
+                if (mock) chai.assert.equal(mockSkylink, res.data.skylink)
+                done()
+            })
+            .catch(done)
+    })
+
+    it(`Testing function - file stream`, done => {
+        const stream = fs.createReadStream(fileTest4)
+
+        instance
+            .fileStream(stream)
+            .then(res => {
+                chai.assert.isObject(res.data)
+                chai.assert.exists(res.data.skylink)
+                if (mock) chai.assert.equal(mockSkylink, res.data.skylink)
+                done()
+            })
+            .catch(done)
+    })
+
+    it(`Testing function - directory stream`, done => {
+        const stream1 = fs.createReadStream(fileTest4)
+        const stream2 = fs.createReadStream(fileTest5)
+
+        instance
+            .directoryStreams([stream1, stream2])
+            .then(res => {
+                chai.assert.isObject(res.data)
+                chai.assert.exists(res.data.skylink)
+                if (mock) chai.assert.equal(mockSkylink, res.data.skylink)
                 done()
             })
             .catch(done)

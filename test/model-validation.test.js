@@ -3,17 +3,17 @@
 const chai = require('chai')
 const stringToFileStream = require('string-to-file-stream')
 
-const validation = require('../src/validation')
+const validation = require('../src/model/validation')
 const { DEFAULT_SKYNET_URL } = require('../src/utils')
 
 describe(`Module validation`, () => {
     it(`Functions - OK`, done => {
         chai.assert.exists(validation)
         chai.assert.isObject(validation)
-        chai.assert.exists(validation.validateUploadFileOpts)
-        chai.assert.isFunction(validation.validateUploadFileOpts)
-        chai.assert.exists(validation.validateUploadDirOpts)
-        chai.assert.isFunction(validation.validateUploadDirOpts)
+        chai.assert.exists(validation.validateUploadOpts)
+        chai.assert.isFunction(validation.validateUploadOpts)
+        chai.assert.exists(validation.validateUploadOpts)
+        chai.assert.isFunction(validation.validateUploadOpts)
         chai.assert.exists(validation.validateDownloadOpts)
         chai.assert.isFunction(validation.validateDownloadOpts)
         chai.assert.exists(validation.validateSkynetUrl)
@@ -22,18 +22,18 @@ describe(`Module validation`, () => {
         done()
     })
 
-    it(`Testing function - validateUploadFileOpts`, done => {
+    it(`Testing function - validateUploadOpts`, done => {
+        const baseUrl = 'https://siasky.dev'
         const endpoint = '/skynet/skyfile'
         const filename = 'test-file-name'
-        const dryRun = true
         const stream = stringToFileStream('testing')
-        const opts = { stream, endpoint, filename, dryRun }
+        const opts = { baseUrl, stream, endpoint, filename }
 
-        validation.validateUploadFileOpts(opts)
+        validation.validateUploadOpts(opts)
 
         opts.stream = { invalid: true }
         try {
-            validation.validateUploadFileOpts(opts)
+            validation.validateUploadOpts(opts)
             done(`Should be throws an error!`)
         } catch (e) {
             chai.assert.exists(e)
@@ -44,7 +44,7 @@ describe(`Module validation`, () => {
 
         opts.stream = null
         try {
-            validation.validateUploadFileOpts(opts)
+            validation.validateUploadOpts(opts)
             done(`Should be throws an error!`)
         } catch (e) {
             chai.assert.exists(e)
@@ -54,45 +54,40 @@ describe(`Module validation`, () => {
         }
 
         opts.stream = stream
-        opts.dryRun = 'invalid'
+        opts.baseUrl = 'invalid'
         try {
-            validation.validateUploadFileOpts(opts)
+            validation.validateUploadOpts(opts)
             done(`Should be throws an error!`)
         } catch (e) {
             chai.assert.exists(e)
             chai.assert.exists(e.message)
             chai.assert.isString(e.message)
-            chai.assert.isTrue(e.message.includes('"dryRun"'))
+            chai.assert.isTrue(e.message.includes('"baseUrl"'))
+            opts.baseUrl = baseUrl
         }
 
-        opts.dryRun = undefined
-        validation.validateUploadFileOpts(opts)
-
-        opts.dryRun = false
-        validation.validateUploadFileOpts(opts)
-
         opts.endpoint = undefined
-        validation.validateUploadFileOpts(opts)
+        validation.validateUploadOpts(opts)
 
         opts.filename = undefined
-        validation.validateUploadFileOpts(opts)
+        validation.validateUploadOpts(opts)
 
         done()
     })
 
-    it(`Testing function - validateUploadDirOpts`, done => {
+    it(`Testing function - validateUploadOpts`, done => {
+        const baseUrl = 'https://siasky.dev'
         const endpoint = '/skynet/skyfile'
         const filename = 'test-file-name'
-        const dryRun = true
         const stream = stringToFileStream('testing')
         const streams = [stream]
-        const opts = { streams, endpoint, filename, dryRun }
+        const opts = { baseUrl, streams, endpoint, filename }
 
-        validation.validateUploadDirOpts(opts)
+        validation.validateUploadOpts(opts)
 
         opts.streams = [{ invalid: true }]
         try {
-            validation.validateUploadDirOpts(opts)
+            validation.validateUploadOpts(opts)
             done(`Should be throws an error!`)
         } catch (e) {
             chai.assert.exists(e)
@@ -103,7 +98,7 @@ describe(`Module validation`, () => {
 
         opts.streams = stream
         try {
-            validation.validateUploadDirOpts(opts)
+            validation.validateUploadOpts(opts)
             done(`Should be throws an error!`)
         } catch (e) {
             chai.assert.exists(e)
@@ -113,28 +108,12 @@ describe(`Module validation`, () => {
         }
 
         opts.streams = streams
-        opts.dryRun = 'invalid'
-        try {
-            validation.validateUploadDirOpts(opts)
-            done(`Should be throws an error!`)
-        } catch (e) {
-            chai.assert.exists(e)
-            chai.assert.exists(e.message)
-            chai.assert.isString(e.message)
-            chai.assert.isTrue(e.message.includes('"dryRun"'))
-        }
-
-        opts.dryRun = undefined
-        validation.validateUploadDirOpts(opts)
-
-        opts.dryRun = false
-        validation.validateUploadDirOpts(opts)
 
         opts.endpoint = undefined
-        validation.validateUploadDirOpts(opts)
+        validation.validateUploadOpts(opts)
 
         opts.filename = undefined
-        validation.validateUploadDirOpts(opts)
+        validation.validateUploadOpts(opts)
 
         done()
     })

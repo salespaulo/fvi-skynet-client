@@ -26,10 +26,11 @@
     "dependencies": {
         "@hapi/joi": "^17.1.1",
         "form-data": "^3.0.0",
-        "fvi-axios-client": "^0.0.5",
-        "string-to-file-stream": "^1.2.0"
+        "fvi-axios-client": "^0.0.6",
+        "url-parse": "^1.4.7"
     },
     "devDependencies": {
+        "string-to-file-stream": "^1.2.0",
         "chai": "^4.2.0",
         "grunt": "^1.2.1",
         "grunt-concurrent": "^3.0.0",
