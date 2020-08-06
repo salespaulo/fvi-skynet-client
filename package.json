@@ -28,6 +28,13 @@
     ],
     "author": "FVI",
     "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/salespaulo/fvi-skynet-client"
+    },
+    "bugs": {
+        "url": "https://github.com/salespaulo/fvi-skynet-client/issues"
+    },
     "dependencies": {
         "fs": "0.0.1-security",
         "@hapi/joi": "^17.1.1",
