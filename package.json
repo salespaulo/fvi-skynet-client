@@ -1,6 +1,6 @@
 {
     "name": "fvi-skynet-client",
-    "version": "0.0.8",
+    "version": "0.0.7",
     "description": "FVI - Skynet Clinet Library",
     "main": "dist/index.js",
     "module": "src/index.js",
