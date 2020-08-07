@@ -14,10 +14,6 @@ describe(`Module validation`, () => {
         chai.assert.isFunction(validation.validateUploadOpts)
         chai.assert.exists(validation.validateUploadOpts)
         chai.assert.isFunction(validation.validateUploadOpts)
-        chai.assert.exists(validation.validateDownloadOpts)
-        chai.assert.isFunction(validation.validateDownloadOpts)
-        chai.assert.exists(validation.validateSkynetUrl)
-        chai.assert.isFunction(validation.validateSkynetUrl)
 
         done()
     })
@@ -58,38 +54,6 @@ describe(`Module validation`, () => {
         opts.filename = undefined
         validation.validateUploadOpts(opts)
 
-        done()
-    })
-
-    it(`Testing function - validateDownloadOpts`, done => {
-        const skylink = 'skylink-test-1'
-        const endpoint = '/'
-        const opts = { skylink, endpoint }
-
-        validation.validateDownloadOpts(opts)
-
-        opts.skylink = null
-        try {
-            validation.validateDownloadOpts(opts)
-            done(`Should be throws an error!`)
-        } catch (e) {
-            chai.assert.exists(e)
-            chai.assert.exists(e.message)
-            chai.assert.isString(e.message)
-            chai.assert.isTrue(e.message.includes('"skylink"'))
-        }
-
-        opts.skylink = skylink
-        opts.endpoint = undefined
-        validation.validateDownloadOpts(opts)
-
-        done()
-    })
-
-    it(`Testing function - validateSkynetUrl`, done => {
-        const testit = undefined
-        const skyneturl = validation.validateSkynetUrl({ url: testit }).url
-        chai.assert.equal(DEFAULT_SKYNET_URL, skyneturl)
         done()
     })
 })
