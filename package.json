@@ -1,6 +1,6 @@
 {
     "name": "fvi-skynet-client",
-    "version": "0.0.6",
+    "version": "0.0.7",
     "description": "FVI - Skynet Clinet Library",
     "main": "dist/index.js",
     "module": "src/index.js",
@@ -28,19 +28,26 @@
     ],
     "author": "FVI",
     "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/salespaulo/fvi-skynet-client"
+    },
+    "bugs": {
+        "url": "https://github.com/salespaulo/fvi-skynet-client/issues"
+    },
     "dependencies": {
-        "fs": "0.0.1-security",
-        "@hapi/joi": "^17.1.1",
         "form-data": "^3.0.0",
-        "fvi-axios-client": "^0.0.6",
+        "fvi-axios-client": "0.0.10",
+        "fvi-js-validator": "^0.0.6",
         "url-parse": "^1.4.7"
     },
     "devDependencies": {
-        "string-to-file-stream": "^1.2.0",
-        "chai": "^4.2.0",
         "@babel/cli": "^7.10.1",
         "@babel/core": "^7.9.0",
         "@babel/preset-env": "^7.9.0",
+        "chai": "^4.2.0",
+        "fs": "0.0.1-security",
+        "fvi-prettier-config": "^0.0.1",
         "grunt": "^1.2.1",
         "grunt-concurrent": "^3.0.0",
         "grunt-contrib-clean": "^2.0.0",
@@ -51,8 +58,10 @@
         "grunt-nodemon": "^0.4.2",
         "grunt-notify": "^0.4.5",
         "grunt-shell": "^3.0.1",
-        "fvi-prettier-config": "^0.0.1",
         "load-grunt-tasks": "^5.1.0",
-        "mocha": "^8.1.1"
+        "mocha": "^8.1.1",
+        "string-to-file-stream": "^1.2.0",
+        "webpack": "^4.44.1",
+        "webpack-cli": "^3.3.12"
     }
 }

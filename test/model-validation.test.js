@@ -31,41 +31,6 @@ describe(`Module validation`, () => {
 
         validation.validateUploadOpts(opts)
 
-        opts.stream = { invalid: true }
-        try {
-            validation.validateUploadOpts(opts)
-            done(`Should be throws an error!`)
-        } catch (e) {
-            chai.assert.exists(e)
-            chai.assert.exists(e.message)
-            chai.assert.isString(e.message)
-            chai.assert.isTrue(e.message.includes('"stream"'))
-        }
-
-        opts.stream = null
-        try {
-            validation.validateUploadOpts(opts)
-            done(`Should be throws an error!`)
-        } catch (e) {
-            chai.assert.exists(e)
-            chai.assert.exists(e.message)
-            chai.assert.isString(e.message)
-            chai.assert.isTrue(e.message.includes('"stream"'))
-        }
-
-        opts.stream = stream
-        opts.baseUrl = 'invalid'
-        try {
-            validation.validateUploadOpts(opts)
-            done(`Should be throws an error!`)
-        } catch (e) {
-            chai.assert.exists(e)
-            chai.assert.exists(e.message)
-            chai.assert.isString(e.message)
-            chai.assert.isTrue(e.message.includes('"baseUrl"'))
-            opts.baseUrl = baseUrl
-        }
-
         opts.endpoint = undefined
         validation.validateUploadOpts(opts)
 
@@ -84,28 +49,6 @@ describe(`Module validation`, () => {
         const opts = { baseUrl, streams, endpoint, filename }
 
         validation.validateUploadOpts(opts)
-
-        opts.streams = [{ invalid: true }]
-        try {
-            validation.validateUploadOpts(opts)
-            done(`Should be throws an error!`)
-        } catch (e) {
-            chai.assert.exists(e)
-            chai.assert.exists(e.message)
-            chai.assert.isString(e.message)
-            chai.assert.isTrue(e.message.includes('pipe'))
-        }
-
-        opts.streams = stream
-        try {
-            validation.validateUploadOpts(opts)
-            done(`Should be throws an error!`)
-        } catch (e) {
-            chai.assert.exists(e)
-            chai.assert.exists(e.message)
-            chai.assert.isString(e.message)
-            chai.assert.isTrue(e.message.includes('must be an array'))
-        }
 
         opts.streams = streams
 
@@ -145,7 +88,7 @@ describe(`Module validation`, () => {
 
     it(`Testing function - validateSkynetUrl`, done => {
         const testit = undefined
-        const skyneturl = validation.validateSkynetUrl(testit)
+        const skyneturl = validation.validateSkynetUrl({ url: testit }).url
         chai.assert.equal(DEFAULT_SKYNET_URL, skyneturl)
         done()
     })

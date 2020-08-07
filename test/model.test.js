@@ -31,41 +31,7 @@ describe(`Module model`, () => {
 
         model.SkynetUpload(opts)
 
-        opts.stream = { invalid: true }
-        try {
-            model.SkynetUpload(opts)
-            done(`Should be throws an error!`)
-        } catch (e) {
-            chai.assert.exists(e)
-            chai.assert.exists(e.message)
-            chai.assert.isString(e.message)
-            chai.assert.isTrue(e.message.includes('"stream"'))
-        }
-
-        opts.stream = null
-        try {
-            model.SkynetUpload(opts)
-            done(`Should be throws an error!`)
-        } catch (e) {
-            chai.assert.exists(e)
-            chai.assert.exists(e.message)
-            chai.assert.isString(e.message)
-            chai.assert.isTrue(e.message.includes('"stream"'))
-        }
-
         opts.stream = stream
-        opts.baseUrl = 'invalid'
-        try {
-            model.SkynetUpload(opts)
-            done(`Should be throws an error!`)
-        } catch (e) {
-            chai.assert.exists(e)
-            chai.assert.exists(e.message)
-            chai.assert.isString(e.message)
-            chai.assert.isTrue(e.message.includes('"baseUrl"'))
-            opts.baseUrl = baseUrl
-        }
-
         opts.endpoint = undefined
         model.SkynetUpload(opts)
 
@@ -84,28 +50,6 @@ describe(`Module model`, () => {
         const opts = { baseUrl, streams, endpoint, filename }
 
         model.SkynetUpload(opts)
-
-        opts.streams = [{ invalid: true }]
-        try {
-            model.SkynetUpload(opts)
-            done(`Should be throws an error!`)
-        } catch (e) {
-            chai.assert.exists(e)
-            chai.assert.exists(e.message)
-            chai.assert.isString(e.message)
-            chai.assert.isTrue(e.message.includes('pipe'))
-        }
-
-        opts.streams = stream
-        try {
-            model.SkynetUpload(opts)
-            done(`Should be throws an error!`)
-        } catch (e) {
-            chai.assert.exists(e)
-            chai.assert.exists(e.message)
-            chai.assert.isString(e.message)
-            chai.assert.isTrue(e.message.includes('must be an array'))
-        }
 
         opts.streams = streams
 

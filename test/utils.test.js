@@ -1,7 +1,6 @@
 'use strict'
 
 const chai = require('chai')
-const joi = require('@hapi/joi')
 
 const utils = require('../src/utils')
 
@@ -13,8 +12,6 @@ describe(`Module utils`, () => {
         chai.assert.exists(utils.DEFAULT_SKYNET_URL)
         chai.assert.exists(utils.buildSkynetUrl)
         chai.assert.isFunction(utils.buildSkynetUrl)
-        chai.assert.exists(utils.throwsIfInvalidJoiSchema)
-        chai.assert.isFunction(utils.throwsIfInvalidJoiSchema)
         done()
     })
 
@@ -66,31 +63,6 @@ describe(`Module utils`, () => {
             chai.assert.exists(e.message)
             chai.assert.isString(e.message)
             chai.assert.isTrue(e.message.includes('"skylink"'))
-            done()
-        }
-    })
-
-    it(`Testing function - throwsIfInvalidJoiSchema`, done => {
-        const joiSchema = joi.object({ id: joi.string().required() })
-        const funcValidate = utils.throwsIfInvalidJoiSchema(joiSchema)
-
-        chai.assert.exists(funcValidate)
-        chai.assert.isFunction(funcValidate)
-
-        const obj = { id: 'valid one' }
-        const value = funcValidate(obj)
-        chai.assert.exists(value)
-        chai.assert.equal(obj.id, value.id)
-
-        obj.id = undefined
-        try {
-            funcValidate(obj)
-            done(`Should be throws an error!`)
-        } catch (e) {
-            chai.assert.exists(e)
-            chai.assert.exists(e.message)
-            chai.assert.isString(e.message)
-            chai.assert.isTrue(e.message.includes('"id"'))
             done()
         }
     })
