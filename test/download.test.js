@@ -10,7 +10,7 @@ const Download = require('../src/core/download')
 const { URI_SIA } = require('../src/utils')
 
 describe(`Module core/download - MOCK`, () => {
-    const skylink = `${URI_SIA}skylink-test-${new Date().toISOString()}`
+    const skylink = `${URI_SIA}test-${Math.random() * 100}.txt`
     const mock = true
     const url = 'http://'
     const opts = {

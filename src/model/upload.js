@@ -1,12 +1,11 @@
 'use strict'
 
-const fs = require('fs')
 const path = require('path')
 const parse = require('url-parse')
 const FormData = require('form-data')
 
 const { validateUploadOpts } = require('./validation')
-const { FORM_PARAM_UPLOAD_FILE, FORM_PARAM_UPLOAD_DIR } = require('../utils')
+const { FORM_PARAM_UPLOAD_FILE, FORM_PARAM_UPLOAD_DIR, DEFAULT_DIR_PATH } = require('../utils')
 
 const createUploadUrl = (baseUrl, endpoint, filename) => {
     const parsed = parse(baseUrl)
@@ -17,7 +16,18 @@ const createUploadUrl = (baseUrl, endpoint, filename) => {
     return parsed.toString()
 }
 
-const createFileReadStream = file => fs.createReadStream(path.join(file.path, file.name)) //new File([], path.join(file.path, file.name))//
+// FIX: Node not implements WebAPI new File([], path.join(file.path, file.name)) //
+const transformToFile = file => file
+
+const getFilePath = file => file.webkitRelativePath || file.path || file.name
+
+const getRelativeFilePath = file => {
+    const filePath = getFilePath(file)
+    const { root, dir, base } = path.parse(filePath)
+    const relative = path.normalize(dir).slice(root.length).split(path.sep).slice(1)
+
+    return path.join(...relative, base)
+}
 
 module.exports = (opts = {}) => {
     const skynetUpload = validateUploadOpts(opts)
@@ -30,23 +40,29 @@ module.exports = (opts = {}) => {
 
     const uploadForm = new FormData()
     const formParam = skynetUpload.formParam
-    const formOpts = null //skynetUpload.file ? skynetUpload.file.path : null
 
     if (formParam === FORM_PARAM_UPLOAD_FILE && skynetUpload.stream != null) {
-        uploadForm.append(formParam, opts.stream, formOpts)
+        uploadForm.append(formParam, opts.stream)
     }
 
     if (formParam === FORM_PARAM_UPLOAD_FILE && skynetUpload.file != null) {
-        const formValue = createFileReadStream(opts.file)
-        uploadForm.append(formParam, formValue, formOpts)
+        const formValue = transformToFile(opts.file)
+        uploadForm.append(formParam, formValue)
     }
 
     if (formParam === FORM_PARAM_UPLOAD_DIR && skynetUpload.streams != null) {
-        opts.streams.forEach(stream => uploadForm.append(formParam, stream, 'root-directory'))
+        opts.streams.forEach(stream => {
+            const streamPath = getRelativeFilePath(stream)
+            uploadForm.append(
+                formParam,
+                stream,
+                streamPath ? path.dirname(streamPath) : DEFAULT_DIR_PATH
+            )
+        })
     }
 
     if (formParam === FORM_PARAM_UPLOAD_DIR && skynetUpload.files != null) {
-        opts.files.forEach(f => uploadForm.append(formParam, createFileReadStream(f), f.path))
+        opts.files.forEach(f => uploadForm.append(formParam, transformToFile(f), f.path))
     }
 
     return {

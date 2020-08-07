@@ -2,4 +2,4 @@
 
 const { validateSkynetUrl } = require('./validation')
 
-module.exports = skylink => validateSkynetUrl(skylink)
+module.exports = skylink => validateSkynetUrl({ url: skylink }).url

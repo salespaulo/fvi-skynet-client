@@ -26,6 +26,9 @@ module.exports = function (grunt) {
     }
 
     var shell = {
+        webpack: {
+            command: 'npx webpack',
+        },
         babel: {
             command: 'babel src --out-dir dist',
         },
@@ -57,6 +60,7 @@ module.exports = function (grunt) {
 
     var clean = {
         src: [
+            path.resolve() + '/dist',
             path.resolve() + '/*.log',
             path.resolve() + '/*.txt',
             path.resolve() + '/*.zip',
@@ -139,7 +143,7 @@ module.exports = function (grunt) {
 
     require('load-grunt-tasks')(grunt)
 
-    grunt.registerTask('compile', ['clean', 'shell:babel'])
+    grunt.registerTask('compile', ['clean']) //, 'shell:babel'])
 
     grunt.registerTask('test', ['env:test', 'compile', 'mochaTest', 'notify:test'])
     grunt.registerTask('debug-test', ['env:debugtest', 'compile', 'mochaTest', 'notify:test'])
@@ -153,8 +157,14 @@ module.exports = function (grunt) {
     grunt.registerTask('version:minor', ['shell:verminor'])
     grunt.registerTask('version:major', ['shell:vermajor'])
 
-    grunt.registerTask('deploy', ['test', 'shell:deploy'])
+    grunt.registerTask('deploy', ['test', 'shell:babel', 'shell:webpack', 'shell:deploy'])
 
-    grunt.registerTask('release', ['test', 'shell:gitflowrelease', 'notify:success'])
+    grunt.registerTask('release', [
+        'test',
+        'shell:babel',
+        'shell:webpack',
+        'shell:gitflowrelease',
+        'notify:success',
+    ])
     grunt.registerTask('release:finish', ['shell:gitflowreleasefinish', 'deploy', 'notify:success'])
 }

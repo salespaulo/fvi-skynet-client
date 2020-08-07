@@ -14,9 +14,6 @@ describe(`Module core/upload - MOCK=${mock}`, () => {
     const baseTestDir = path.join(__dirname, '.data')
     const fileTest1 = path.join(baseTestDir, 'test1.json')
     const fileTest2 = path.join(baseTestDir, 'test2.json')
-    const fileTest3 = path.join(baseTestDir, 'test3.json')
-    const fileTest4 = path.join(baseTestDir, 'test4.json')
-    const fileTest5 = path.join(baseTestDir, 'test5.json')
 
     const mockSkylink = `${URI_SIA}CABAB_1Dt0FJsxqsu_J4TodNCbCGvtFf1Uys_3EgzOlTcg`
     const url = DEFAULT_SKYNET_URL
@@ -47,9 +44,6 @@ describe(`Module core/upload - MOCK=${mock}`, () => {
         }
         fs.writeFileSync(fileTest1, JSON.stringify({ msg: 'Test1' }))
         fs.writeFileSync(fileTest2, JSON.stringify({ msg: 'Test2' }))
-        fs.writeFileSync(fileTest3, JSON.stringify({ msg: 'Test3' }))
-        fs.writeFileSync(fileTest4, JSON.stringify({ msg: 'Test4' }))
-        fs.writeFileSync(fileTest5, JSON.stringify({ msg: 'Test5' }))
     })
 
     afterEach(() => {
@@ -66,8 +60,10 @@ describe(`Module core/upload - MOCK=${mock}`, () => {
         done()
     })
 
+    // FIX: Node not implements WebAPI new File([], path.join(file.path, file.name)) //
     it(`Testing function - file`, done => {
-        const file = { name: 'test1.json', path: baseTestDir }
+        const file = fs.createReadStream(fileTest1)
+        file.name = 'test1.json'
 
         instance
             .file(file)
@@ -80,12 +76,17 @@ describe(`Module core/upload - MOCK=${mock}`, () => {
             .catch(done)
     })
 
+    // FIX: Node not implements WebAPI new File([], path.join(file.path, file.name)) //
     it(`Testing function - directory`, done => {
-        const file2 = { name: 'test2.json', path: baseTestDir }
-        const file3 = { name: 'test3.json', path: baseTestDir }
+        const file1 = fs.createReadStream(fileTest1)
+        file1.name = 'test1.json'
+        file1.path = baseTestDir
+        const file2 = fs.createReadStream(fileTest2)
+        file2.name = 'test2.json'
+        file2.path = baseTestDir
 
         instance
-            .directory([file2, file3])
+            .directory([file1, file2])
             .then(res => {
                 chai.assert.isObject(res.data)
                 chai.assert.exists(res.data.skylink)
@@ -96,7 +97,7 @@ describe(`Module core/upload - MOCK=${mock}`, () => {
     })
 
     it(`Testing function - file stream`, done => {
-        const stream = fs.createReadStream(fileTest4)
+        const stream = fs.createReadStream(fileTest1)
 
         instance
             .fileStream(stream)
@@ -110,8 +111,8 @@ describe(`Module core/upload - MOCK=${mock}`, () => {
     })
 
     it(`Testing function - directory stream`, done => {
-        const stream1 = fs.createReadStream(fileTest4)
-        const stream2 = fs.createReadStream(fileTest5)
+        const stream1 = fs.createReadStream(fileTest1)
+        const stream2 = fs.createReadStream(fileTest2)
 
         instance
             .directoryStreams([stream1, stream2])
